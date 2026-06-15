@@ -1,0 +1,397 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Nav } from "@/components/eco/Nav";
+import { Reveal } from "@/components/eco/Reveal";
+import { AnimatedNumber } from "@/components/eco/AnimatedNumber";
+import { Dashboard } from "@/components/eco/Dashboard";
+import { Leaderboard } from "@/components/eco/Leaderboard";
+
+export const Route = createFileRoute("/")({
+  component: EcoVizPage,
+});
+
+const PROBLEMS = [
+  { num: "01 / PROBLEM",  icon: "🌍", title: "Fossil Fuel Dependency", text: "Global energy demand continues to grow, and fossil fuels still dominate, causing greenhouse gas emissions and environmental degradation." },
+  { num: "02 / PROBLEM",  icon: "📊", title: "Scattered Data Sources", text: "Renewable energy statistics are spread across IRENA, World Bank, and national databases — with no centralized, interactive access point." },
+  { num: "03 / PROBLEM",  icon: "🔍", title: "No Unified Dashboard",   text: "Existing tools offer only static reports or limited regional views — lacking global maps, trends, sector leaders, and forecasting in one place." },
+  { num: "04 / SOLUTION", icon: "🗺️", title: "Interactive World Map",  text: "A clickable world map displaying country-wise renewable energy stats, source distribution, and historical patterns at a glance." },
+  { num: "05 / SOLUTION", icon: "📈", title: "Growth Trend Analysis",  text: "Visual historical analysis of solar, wind, hydro, biomass, and geothermal adoption curves with sector leadership comparison." },
+  { num: "06 / SOLUTION", icon: "🔮", title: "Future Forecasting",     text: "Machine learning-based predictions of renewable energy growth trajectories up to 2050 — integrated directly into the dashboard." },
+];
+
+
+
+
+const OBJECTIVES = [
+  { num: "OBJ 01", icon: "🌐", title: "Global Visualization", text: "Develop an interactive world map interface for renewable energy data across all nations." },
+  { num: "OBJ 02", icon: "⚡", title: "Multi-Source Analysis", text: "Analyze solar, wind, hydro, biomass, and geothermal usage per country with comparative breakdown." },
+  { num: "OBJ 03", icon: "📉", title: "Historical Trends",     text: "Study and display renewable energy growth curves using statistical and graphical analysis tools." },
+  { num: "OBJ 04", icon: "🏆", title: "Sector Leadership",     text: "Identify and rank leading countries in each renewable energy category through comparative analysis." },
+  { num: "OBJ 05", icon: "🤖", title: "Forecasting",           text: "Implement ML-based techniques to predict future renewable energy growth and show projections on the dashboard." },
+  { num: "OBJ 06", icon: "👥", title: "Accessibility",         text: "Provide a user-friendly, data-driven platform for students, researchers, policymakers, and environmental analysts." },
+];
+
+const METHODOLOGY = [
+  { n: "01", title: "Data Collection",      text: "Gather renewable energy data from IRENA, World Bank, and Our World in Data. Cover solar, wind, hydro, biomass, and geothermal across 195+ countries spanning 30 years.", badge: "IRENA · World Bank · OWID" },
+  { n: "02", title: "Data Preprocessing",   text: "Clean, normalize, and organize the dataset into a structured format optimized for fast query and visualization rendering using Python (Pandas, NumPy).",              badge: "Python · Pandas · NumPy" },
+  { n: "03", title: "World Map Interface",  text: "Develop an interactive clickable world map using Leaflet.js, displaying country-wise renewable energy stats, color-coded by energy type and adoption level.",          badge: "HTML · CSS · JavaScript · Leaflet.js" },
+  { n: "04", title: "Trend Analysis & Charts", text: "Build historical growth charts, sector-wise comparisons, and country rankings using Chart.js — enabling dynamic, animated visualizations with filter controls.",   badge: "Chart.js · D3-style Analytics" },
+  { n: "05", title: "Forecasting Engine",   text: "Apply Scikit-learn regression and time-series models to predict renewable energy growth trends up to 2050. Integrate predictions visually into the dashboard.",        badge: "Python · Scikit-learn · Flask API" },
+  { n: "06", title: "Dashboard Integration", text: "Connect all components through a Flask backend serving data to the frontend. Deploy as a unified, responsive web application accessible from any device.",          badge: "Flask · REST API · Responsive UI" },
+];
+
+const TOOLS = [
+  { icon: "🗺️", color: "rgba(91,226,255,0.12)", name: "Leaflet.js",   desc: "Interactive world maps and geographical visualization of country-level energy data." },
+  { icon: "📊", color: "rgba(255,140,66,0.12)", name: "Chart.js",     desc: "Dynamic charts and graphs for renewable energy trends, comparisons, and historical data." },
+  { icon: "🐍", color: "rgba(245,200,66,0.12)", name: "Python",       desc: "Backend data processing, statistical analysis, and forecasting model implementation." },
+  { icon: "⚙️", color: "rgba(0,229,160,0.12)",  name: "Flask",        desc: "Lightweight Python web framework for building APIs and connecting frontend to backend." },
+  { icon: "🤖", color: "rgba(126,217,87,0.12)", name: "Scikit-learn", desc: "Machine learning library for regression models and renewable energy growth forecasting." },
+  { icon: "💻", color: "rgba(79,163,247,0.12)", name: "VS Code",      desc: "Primary development environment for coding, debugging, and project management." },
+];
+
+const OUTCOMES = [
+  { icon: "🌐", title: "Interactive Global Platform",     text: "A user-friendly web dashboard for visualizing global renewable energy data through a live, clickable world map interface." },
+  { icon: "📊", title: "Country-wise Statistics",         text: "Detailed breakdown of solar, wind, hydro, biomass, and geothermal energy usage for every tracked nation." },
+  { icon: "📈", title: "Historical Trend Visuals",        text: "Animated charts showing renewable energy growth over 30 years — with filtering by source, region, and time period." },
+  { icon: "🏅", title: "Sector Leadership Rankings",      text: "Identification of top-performing countries in solar, wind, hydro, biomass, and geothermal sectors with comparative analysis." },
+  { icon: "🔮", title: "2050 Growth Forecasts",           text: "ML-based predictions of future renewable energy adoption per country, visualized as forward projections on trend charts." },
+  { icon: "💡", title: "Awareness & Decision Support",    text: "Improved understanding of global renewable energy adoption for students, researchers, policymakers, and environmental analysts." },
+];
+
+
+
+
+function EcoVizPage() {
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 z-0 grid-bg" />
+
+      <Nav />
+
+      {/* HERO */}
+      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-16 pt-32 text-center">
+        <motion.div className="pointer-events-none absolute -left-24 -top-24 h-[500px] w-[500px] rounded-full bg-primary/15 blur-[100px]"
+          animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 8, repeat: Infinity }} />
+        <motion.div className="pointer-events-none absolute -bottom-24 -right-24 h-[400px] w-[400px] rounded-full bg-teal/10 blur-[100px]"
+          animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 10, repeat: Infinity, delay: 1 }} />
+        <motion.div className="pointer-events-none absolute left-1/2 top-1/3 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-solar/10 blur-[100px]"
+          animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-widest text-primary"
+        >
+          <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-primary" />
+          1BPRJ208 — Interdisciplinary Mini Project
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
+          className="font-display text-[clamp(2.8rem,7vw,6rem)] font-extrabold leading-[1.02] tracking-tight"
+        >
+          <span className="text-gradient-primary">Eco Viz</span><br />
+          <span className="text-teal">Global Energy</span><br />
+          Visualization Dashboard
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+        >
+          An interactive platform to explore renewable energy usage, growth trends, and future forecasts across every nation — powered by data from IRENA, World Bank, and Our World in Data.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-10 flex flex-wrap justify-center gap-3"
+        >
+          <a href="#dashboard"
+            className="rounded-md bg-primary px-6 py-3 font-display text-sm font-bold text-primary-foreground shadow-[0_0_30px_rgba(0,229,160,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_50px_rgba(0,229,160,0.6)]">
+            Explore Dashboard ↓
+          </a>
+          <a href="#about"
+            className="rounded-md border border-white/15 px-6 py-3 font-display text-sm font-medium text-foreground transition-all hover:border-primary hover:text-primary">
+            Learn More
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-16 flex flex-wrap justify-center gap-x-10 gap-y-6"
+        >
+          {[
+            { num: 195, suffix: "+", label: "Countries Tracked" },
+            { num: 30,  suffix: "yr", label: "Historical Data" },
+            { num: 5,   suffix: "",  label: "Energy Sources" },
+            { num: 2050, suffix: "", label: "Forecast Horizon" },
+          ].map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="font-mono text-3xl font-bold text-primary">
+                <AnimatedNumber to={s.num} suffix={s.suffix} />
+              </div>
+              <div className="mt-1 font-mono text-[0.7rem] uppercase tracking-widest text-muted-foreground">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* ABOUT */}
+      <Section id="about">
+        <SectionLabel>Introduction</SectionLabel>
+        <SectionTitle>Why Renewable Energy<br />Visualization Matters</SectionTitle>
+        <SectionSub>Fossil fuels drive climate change. Renewable data is scattered. Eco Viz brings it all together — making global energy trends accessible and actionable.</SectionSub>
+
+        <div className="mt-12 grid items-center gap-12 md:grid-cols-2">
+          <Reveal>
+            <div className="space-y-6 text-[0.95rem] leading-loose text-muted-foreground">
+              <p>Energy plays a vital role in the economic and technological development of every nation. Countries have traditionally relied on fossil fuels — causing global warming, climate change, air pollution, and resource depletion.</p>
+              <p>Renewable energy sources — solar, wind, hydroelectric, biomass, and geothermal — are rapidly being adopted worldwide. Yet their data remains scattered across static reports, making comparison and analysis difficult.</p>
+              <p>Eco Viz solves this by delivering a centralized, interactive dashboard that lets students, researchers, and policymakers explore global renewable energy trends in real time.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="rounded-2xl border border-border bg-card p-8 backdrop-blur-xl glow-primary">
+              <div className="mb-5 font-mono text-[0.7rem] uppercase tracking-widest text-muted-foreground">Global Renewable Share 2024</div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { icon: "☀️", name: "Solar",   pct: 34, color: "var(--color-solar)" },
+                  { icon: "💨", name: "Wind",    pct: 28, color: "var(--color-wind)" },
+                  { icon: "💧", name: "Hydro",   pct: 22, color: "var(--color-hydro)" },
+                  { icon: "🌿", name: "Biomass", pct: 10, color: "var(--color-biomass)" },
+                ].map((e) => (
+                  <motion.div key={e.name} whileHover={{ y: -4, borderColor: "rgba(0,229,160,0.3)" }}
+                    className="rounded-lg border border-white/10 bg-white/[0.03] p-4 text-center transition-colors">
+                    <div className="text-2xl">{e.icon}</div>
+                    <div className="mt-1 font-mono text-[0.78rem] text-muted-foreground">{e.name}</div>
+                    <div className="mt-1 font-mono text-lg font-bold" style={{ color: e.color }}>{e.pct}%</div>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center gap-3 rounded-lg border border-geo/30 bg-geo/[0.08] p-3">
+                <span className="text-lg">🌋</span>
+                <div>
+                  <div className="text-sm font-semibold">Geothermal</div>
+                  <div className="text-xs text-muted-foreground">6% global share — growing steadily</div>
+                </div>
+                <span className="ml-auto font-mono text-base font-bold text-geo">6%</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* DASHBOARD */}
+      <Section id="dashboard" className="pt-8">
+        <SectionLabel>Interactive Dashboard</SectionLabel>
+        <SectionTitle>Visualize Global Energy Data</SectionTitle>
+        <SectionSub>Click countries, switch chart types, explore historical trends and renewable mix by nation.</SectionSub>
+        <div className="mt-12">
+          <Reveal>
+            <Dashboard />
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* LEADERBOARD */}
+      <Section id="leaderboard">
+        <SectionLabel>Global Rankings</SectionLabel>
+        <SectionTitle>Countries Leading in Renewable Energy</SectionTitle>
+        <SectionSub>Ranked by overall renewable share and individual energy sources. See who&apos;s leading the green transition worldwide.</SectionSub>
+        <div className="mt-12">
+          <Reveal>
+            <Leaderboard />
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* PROBLEM */}
+      <Section id="problem">
+        <SectionLabel>Problem Statement</SectionLabel>
+        <SectionTitle>The Challenge We're Solving</SectionTitle>
+        <SectionSub>Renewable energy data is scattered, static, and hard to compare — no unified platform exists for global interactive analysis.</SectionSub>
+        <CardGrid items={PROBLEMS} />
+      </Section>
+
+
+      {/* OBJECTIVES */}
+      <Section id="objectives">
+        <SectionLabel>Objectives</SectionLabel>
+        <SectionTitle>What Eco Viz Aims to Achieve</SectionTitle>
+        <CardGrid items={OBJECTIVES} />
+      </Section>
+
+      {/* METHODOLOGY */}
+      <Section id="methodology" className="bg-surface">
+        <SectionLabel>Methodology</SectionLabel>
+        <SectionTitle>How We're Building It</SectionTitle>
+        <SectionSub>A 6-phase structured development pipeline from raw data to a fully deployed interactive dashboard.</SectionSub>
+
+        <div className="relative mt-12">
+          <div className="absolute bottom-0 left-5 top-0 w-px bg-gradient-to-b from-primary via-primary/40 to-transparent" />
+          {METHODOLOGY.map((step, i) => (
+            <Reveal key={step.n} delay={i * 0.05}>
+              <div className="relative mb-8 flex gap-6">
+                <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-surface font-mono text-xs text-primary">
+                  {step.n}
+                </div>
+                <motion.div
+                  whileHover={{ borderColor: "rgba(0,229,160,0.4)", y: -2 }}
+                  className="flex-1 rounded-xl border border-border bg-card p-5 backdrop-blur-xl transition-all"
+                >
+                  <div className="font-display text-base font-bold">{step.title}</div>
+                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.text}</div>
+                  <span className="mt-3 inline-block rounded-full border border-primary/20 bg-primary/10 px-3 py-1 font-mono text-[0.68rem] text-primary">
+                    {step.badge}
+                  </span>
+                </motion.div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* TOOLS */}
+      <Section id="tools">
+        <SectionLabel>Tools & Technologies</SectionLabel>
+        <SectionTitle>Built With</SectionTitle>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {TOOLS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.04}>
+              <motion.div whileHover={{ y: -4, borderColor: "rgba(0,229,160,0.3)" }}
+                className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 backdrop-blur-xl transition-all">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-xl" style={{ background: t.color }}>
+                  {t.icon}
+                </div>
+                <div>
+                  <div className="font-display text-base font-bold">{t.name}</div>
+                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{t.desc}</div>
+                </div>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* OUTCOMES */}
+      <Section className="bg-surface">
+        <SectionLabel>Expected Outcomes</SectionLabel>
+        <SectionTitle>What Eco Viz Will Deliver</SectionTitle>
+
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {OUTCOMES.map((o, i) => (
+            <Reveal key={o.title} delay={i * 0.05}>
+              <motion.div whileHover={{ borderColor: "rgba(0,229,160,0.3)" }}
+                className="flex gap-4 rounded-xl border border-border bg-card p-5 backdrop-blur-xl transition-colors">
+                <div className="text-2xl">{o.icon}</div>
+                <div>
+                  <div className="font-display text-base font-bold">{o.title}</div>
+                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{o.text}</div>
+                </div>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* SDGs / Project Info */}
+      <Section id="info" className="bg-surface">
+        <SectionLabel>Guides & SDGs</SectionLabel>
+        <SectionTitle>Mentors & Goals</SectionTitle>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <Reveal>
+            <div className="flex flex-col gap-3">
+              <div className="rounded-lg border border-primary/20 bg-primary/[0.05] p-4">
+                <div className="font-mono text-[0.65rem] uppercase tracking-widest text-primary">Internal Guide</div>
+                <div className="mt-1 font-display text-base font-bold">Dr. Annapurna P Patil</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">HOD, Information Science and Engineering</div>
+              </div>
+              <div className="rounded-lg border border-primary/20 bg-primary/[0.05] p-4">
+                <div className="font-mono text-[0.65rem] uppercase tracking-widest text-primary">External Guide</div>
+                <div className="mt-1 font-display text-base font-bold">Prof. Nitin Kumar</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">Assistant Professor, Civil Engineering</div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div>
+              <div className="font-mono text-[0.7rem] uppercase tracking-widest text-muted-foreground">Sustainable Development Goals</div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[
+                  { label: "SDG 7 — Clean Energy",             color: "#f5c842" },
+                  { label: "SDG 12 — Responsible Consumption", color: "#7ed957" },
+                  { label: "SDG 3 — Good Health",              color: "#5be2ff" },
+                  { label: "SDG 6 — Clean Water",              color: "#4fa3f7" },
+                ].map((chip) => (
+                  <span key={chip.label} className="rounded-full border px-3 py-1 font-mono text-[0.75rem]"
+                    style={{ color: chip.color, borderColor: `${chip.color}55`, background: `${chip.color}11` }}>
+                    {chip.label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 rounded-lg border border-border bg-primary/[0.04] p-4 text-xs text-muted-foreground">
+                <span className="font-mono text-primary">DSCE · 1BPRJ208</span> — Dayananda Sagar College of Engineering · Dept. of ISE · NEP 2025 Batch · A.Y. 2025-26
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* FOOTER */}
+      <footer className="relative z-10 border-t border-border px-6 py-10 text-center font-mono text-xs text-muted-foreground">
+        <span className="text-primary">Eco Viz</span> — Global Energy Visualization Dashboard
+        &nbsp;·&nbsp; 1BPRJ208 &nbsp;·&nbsp; Group A20 &nbsp;·&nbsp; DSCE &nbsp;·&nbsp; A.Y. 2025-26
+      </footer>
+    </div>
+  );
+}
+
+/* ───────── Building blocks ───────── */
+function Section({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
+  return (
+    <section id={id} className={`relative z-10 px-6 py-24 ${className}`}>
+      <div className="mx-auto max-w-6xl">{children}</div>
+    </section>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-primary">
+      <span className="block h-px w-6 bg-primary" />
+      {children}
+    </div>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="mt-3 font-display text-[clamp(1.8rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">{children}</h2>;
+}
+
+function SectionSub({ children }: { children: React.ReactNode }) {
+  return <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{children}</p>;
+}
+
+interface CardItem { num: string; icon: string; title: string; text: string }
+function CardGrid({ items }: { items: CardItem[] }) {
+  return (
+    <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((c, i) => (
+        <Reveal key={c.title} delay={i * 0.04}>
+          <motion.div
+            whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,229,160,0.12)" }}
+            transition={{ type: "spring", stiffness: 260, damping: 22 }}
+            className="h-full rounded-2xl border border-border bg-card p-6 backdrop-blur-xl"
+          >
+            <div className="font-mono text-[0.65rem] tracking-widest text-primary/70">{c.num}</div>
+            <div className="mt-3 text-2xl">{c.icon}</div>
+            <div className="mt-2 font-display text-base font-bold">{c.title}</div>
+            <div className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.text}</div>
+          </motion.div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
